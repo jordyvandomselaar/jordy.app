@@ -1,0 +1,11 @@
+name: Jordy van Domselaar
+bio: |
+  Hi, I'm Jordy van Domselaar. Software engineer @ <a href="https://dij.digital" target="_blank" rel="noopener">DIJ</a>. Follow me on twitter! <a href="https://twitter.com/Jordy_vD_" target="_blank" rel="noopener">@Jordy_vD_</a>
+avatar: ./avatars/jordy-van-domselaar.png
+social:
+  - url: https://unsplash.com
+  - url: https://stackoverflow.com
+  - url: https://github.com
+  - url: https://github.com
+  - url: https://github.com
+featured: true
