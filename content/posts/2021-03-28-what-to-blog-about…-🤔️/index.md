@@ -14,12 +14,13 @@ Note: This doesn't mean I'll write about everything in here. They're just ideas.
 
 ## Currently writing
 
+Nothing right now. Have an idea you'd like me to write about? Tweet/DM me on [Twitter](https://twitter.com/Jordy_vD_)!
+
+## To-do
 
 ### Javascript array methods
 
 A post that explains JavaScript array methods, they're really useful but you have to know when to use which one.
-
-## To-do
 
 ### Test Driven Development with Cypress
 
@@ -59,9 +60,9 @@ When I started programming, the developers I looked up to because they were real
 
 Deploying apps made easy with Vercel
 
-- Previews for all branches
-- Auto deploying
-- importing projects
+* Previews for all branches
+* Auto deploying
+* importing projects
 
 ## Done
 
