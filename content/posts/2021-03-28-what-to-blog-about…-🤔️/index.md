@@ -6,17 +6,21 @@ excerpt: When I come across blog ideas, I add them here as a reminder to write
   about them.
 hero: images/header-image.jpg
 ---
-### Intro
+## Intro
 
 This page contains some ideas for me to write blog posts about. Have something that you'd like to know more about? Let me know! You can contact me on [Twitter](https://twitter.com/Jordy_vD_).
 
 Note: This doesn't mean I'll write about everything in here. They're just ideas.
 
-## Currently writing
-
-Nothing right now. Have an idea you'd like me to write about? Send me a message on [https://twitter.com/Jordy\_vD\_](https://twitter.com/Jordy_vD_)!
-
 ## To-do
+
+### Getting started with code splitting in a create-react-app
+
+Next.JS does this out of the box. Explain how we can do this with create-react-app and react-router-dom. (loadable-component)
+
+### Using Redux Toolkit
+
+Redux Toolkit has been out there for a while, yet a surprisingly small amount of people know about it. Explain the differences and how to get started.
 
 ### Javascript array methods
 
