@@ -6,7 +6,7 @@ excerpt: When I come across blog ideas, I add them here as a reminder to write
   about them.
 hero: images/header-image.jpg
 ---
-## Intro
+### Intro
 
 This page contains some ideas for me to write blog posts about. Have something that you'd like to know more about? Let me know! You can contact me on [Twitter](https://twitter.com/Jordy_vD_).
 
