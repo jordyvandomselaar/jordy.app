@@ -67,17 +67,3 @@ Deploying apps made easy with Vercel
 * Previews for all branches
 * Auto deploying
 * importing projects
-
-## Done
-
-### Getting started with React & Typescript
-
-A post that describes how to get started with React + Typescript.
-
-### Getting started with React & AWS Amplify
-
-A post that describes how to get started with React + AWS Amplify.
-
-## TODO to make this blog itself better:
-
-Possibility to hit "/" and search for content on the page with some context. Mad useful on posts like the one about array methods.
