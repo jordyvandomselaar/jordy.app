@@ -1,6 +1,10 @@
 name: Jordy van Domselaar
-bio: |
-  Hi, I'm Jordy van Domselaar. Software engineer @ <a href="https://dij.digital" target="_blank" rel="noopener">DIJ</a>. Follow me on twitter! <a href="https://twitter.com/Jordy_vD_" target="_blank" rel="noopener">@Jordy_vD_</a>
+bio: Hi, I'm Jordy van Domselaar. Software engineer @ <a
+  href="https://dij.digital" target="_blank" rel="noopener">DIJ</a>. I like
+  things like React, Flutter & Laravel. Currently focussing on Machine Learning.
+  Follow me on twitter! <a href="https://twitter.com/Jordy_vD_" target="_blank"
+  rel="noopener">@Jordy_vD_</a>
+featured: true
 avatar: ./avatars/jordy-van-domselaar.png
 social:
   - url: https://stackoverflow.com/users/3147669/jordyvd
@@ -8,4 +12,3 @@ social:
   - url: https://www.linkedin.com/in/jordy%F0%9F%91%A8%E2%80%8D%F0%9F%92%BB-van-domselaar-066819b5/
   - url: https://twitter.com/Jordy_vD_
   - url: https://www.instagram.com/jordyvdomselaar/
-featured: true
