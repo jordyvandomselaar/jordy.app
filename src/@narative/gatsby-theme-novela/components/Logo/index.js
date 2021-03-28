@@ -1,5 +1,5 @@
 import React from 'react';
-import image from "../../../../assets/logo.png";
+import image from "../../../../assets/logo.jpg";
 import styled from "@emotion/styled";
 
 const Image = styled.img`
