@@ -8,5 +8,4 @@ When building your app using [create-react-app](https://reactjs.org/docs/create-
 
 The solution to this problem is code splitting. Tools like Next.JS implement route-based code splitting out of the box but in this blog post, I'll guide you on your way to splitting your code when you use create-react-app.
 
-Throughout this blog post, I've added CodeSandbox examples so you tinker with the code yourself!
-
+Throughout this blog post, I've added CodeSandbox examples so you can tinker with the code yourself!
