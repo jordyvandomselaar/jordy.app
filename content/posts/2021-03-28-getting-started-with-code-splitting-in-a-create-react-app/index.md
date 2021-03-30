@@ -89,8 +89,28 @@ export const routes = {
 }
 ```
 
+And then add this to `App.js`:
+
+```javascript
+const App = () => {
+  return (
+    <ThemeProvider theme={theme}>
+      <DashboardLayout>
+        <GlobalStyles />
+        <Switch>
+          {Object.keys(routes).map(key => {
+            return (
+              <Route key={key} path={routes[key].path} component={routes[key].component} exact />
+            );
+          })}
+        </Switch>
+      </DashboardLayout>
+    </ThemeProvider>
+  );
+};
+```
+
 We've achieved a few things:
 
 1. We've split the routes from `App.js`, cleaning `App.js` up
 2. We now have a static route map where routes are coupled to components so we can easily access the component later
-3. We have named routes. Instead of navigating to `/app/dashboard`, we can navigate to `routes.dashboard`. If you're using TypeScript, you now have the added benefit of TypeScript telling you if you're using a route that doesn't exist
