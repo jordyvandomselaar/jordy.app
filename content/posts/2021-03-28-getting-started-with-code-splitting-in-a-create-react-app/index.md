@@ -13,7 +13,7 @@ The solution to this problem is code splitting. Tools like Next.JS implement rou
 
 <Tip title="important!">
 
-This post assumes you're at least with React. If you're new to React, please read [From zero to hero with React and TypeScript: Let's build another to-do app!](https://jordy.app/from-zero-to-hero-with-react-and-typescript:-let's-build-another-to-do-app!) first!
+This post assumes you're at least familiar with React. If you're new to React, please read [From zero to hero with React and TypeScript: Let's build another to-do app!](https://jordy.app/from-zero-to-hero-with-react-and-typescript:-let's-build-another-to-do-app!) first! It explains how you can use TypeScript but also explains basic concepts in React. 
 
 </Tip>
 
@@ -21,96 +21,174 @@ Throughout this blog post, I've added CodeSandbox examples so you can tinker wit
 
 <CodeSandbox
   title="Example project"
-  url="https://codesandbox.io/embed/practical-lehmann-jfbvl"
+  url="https://codesandbox.io/embed/competent-frost-kp2x4"
 />
 
-It's a fork of this material-UI starter kit: <https://github.com/devias-io/material-kit-react>.
+It's a stripped-down version of this material-UI starter kit: <https://github.com/devias-io/material-kit-react>.
 
-## Installing packages
+## Code splitting our pages
 
-In this blog post, we're using [loadable-components](https://github.com/gregberge/loadable-components). loadable-components works similar to React's `lazy`  and `suspense` but has [better server-side rendering support](https://reactjs.org/docs/code-splitting.html#reactlazy) and provides us with the tools we need to intelligently pre-load components. More on that later.
-
-To install loadable-components, open your favorite terminal and run `npm install @loadable/component --save`.
-
-## Creating static routes
-
-Right now, you might be used to having `<Route path="..." component="..." />` routes. This is a great way to define routes dynamically but has one issue: We have no way to know what component is registered to what route throughout your app. This is a problem because we can't know what component to pre-load.
-
-To make sure we can intelligently pre-load components, we need to know what route is going to render what component. To do this we can create a route map.
-
-Inside `src/App.js` you can see that our routes are currently defined like so:
+If you look in `src/App.js`, it currently contains the following code:
 
 ```javascript
-const App = () => {
-  return (
-    <ThemeProvider theme={theme}>
-      <DashboardLayout>
-        <GlobalStyles />
-        <Route path="/" component={Dashboard}/>
-        <Route path="/app/account" component={Account}/>
-        <Route path="/app/dashboard" component={Dashboard}/>
-        <Route path="/app/products" component={ProductList}/>
-        <Route path="/app/settings" component={Settings}/>
-      </DashboardLayout>
-    </ThemeProvider>
-  );
-};
-```
-
-Let's change that to a static route map. To do this, create a `routes.js` file next to `App.js` and add this:
-
-```javascript
-import Dashboard from './pages/Dashboard';
+import React from "react";
+import 'react-perfect-scrollbar/dist/css/styles.css';
+import { Route } from 'react-router-dom';
+import { ThemeProvider } from '@material-ui/core';
+import GlobalStyles from './components/GlobalStyles';
+import './mixins/chartjs';
+import theme from './theme';
+import DashboardLayout from './components/DashboardLayout';
 import Account from './pages/Account';
+import Dashboard from './pages/Dashboard';
 import ProductList from './pages/ProductList';
 import Settings from './pages/Settings';
+import { Switch } from 'react-router';
 
-export const routes = {
-  home: {
-    path: "/",
-    component: Dashboard
-  },
-  account: {
-    path: "/app/account",
-    component: Account
-  },
-  dashboard: {
-    path: "/app/dashboard",
-    component: Dashboard
-  },
-  productList: {
-    path: "/app/products",
-    component: ProductList
-  },
-  settings: {
-    path: "/app/settings",
-    component: Settings
-  },
-}
-```
-
-And then add this to `App.js`:
-
-```javascript
 const App = () => {
+
   return (
     <ThemeProvider theme={theme}>
       <DashboardLayout>
         <GlobalStyles />
         <Switch>
-          {Object.keys(routes).map(key => {
-            return (
-              <Route key={key} path={routes[key].path} component={routes[key].component} exact />
-            );
-          })}
+          <Route exact path="/" component={Dashboard}/>
+          <Route exact path="/app/account" component={Account}/>
+          <Route exact path="/app/dashboard" component={Dashboard}/>
+          <Route exact path="/app/products" component={ProductList}/>
+          <Route exact path="/app/settings" component={Settings}/>
         </Switch>
       </DashboardLayout>
     </ThemeProvider>
   );
 };
+
+export default App;
 ```
 
-We've achieved a few things:
+ This should look familiar. First, we import our pages then we create our routes. Right now Webpack combines all code from all of our imported pages into one big bundle. To fix this we can use [dynamic imports](https://webpack.js.org/guides/code-splitting/). A dynamic import is different from your standard import because it accepts dynamic strings as paths so you can use variables in your import path and because Webpack by default splits any dynamically imported code into its own `chunk`.
 
-1. We've split the routes from `App.js`, cleaning `App.js` up
-2. We now have a static route map where routes are coupled to components so we can easily access the component later
+To use dynamic imports, we can call `import` as a method instead of a keyword so instead of `import Dashboard from './pages/Dashboard';` we use `const Dashboard = import('./pages/Dashboard');`. One difference to keep in mind is that instead of a component, the `Dashboard` variable is a [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) that resolves to a component. This happens because when a user opens our website, we only serve them the code that's required for the current page. The other code is loaded on demand so we can't assume we already have access to our code.
+
+Let's split our Account page from the rest of our code: 
+
+```diff
+ import './mixins/chartjs';
+ import theme from './theme';
+ import DashboardLayout from './components/DashboardLayout';
+-import Account from './pages/Account';
+ import Dashboard from './pages/Dashboard';
+ import ProductList from './pages/ProductList';
+ import Settings from './pages/Settings';
+ import { Switch } from 'react-router';
+
++const Account = import('./pages/Account');
++
+ const App = () => {
+
+   return (
+```
+
+Now, because Account is a promise, we'll get an error:
+
+`Error: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: object. You likely forgot to export your component from the file it's defined in, or you might have mixed up default and named imports. Check the render method of Router.Consumer.`
+
+React is trying to tell you it expected a component, but got a Promise.
+
+There are a few ways we can solve this. One way is to not render anything, wait for the component to download, and then render the component:
+
+```diff
+ import './mixins/chartjs';
+ import theme from './theme';
+ import DashboardLayout from './components/DashboardLayout';
+-import Account from './pages/Account';
+ import Dashboard from './pages/Dashboard';
+ import ProductList from './pages/ProductList';
+ import Settings from './pages/Settings';
+ import { Switch } from 'react-router';
++import { useEffect, useState } from 'react';
+
+ const App = () => {
++  const [AccountComponent, setAccountComponent] = useState(null);
++
++  useEffect(() => {
++    import('./pages/Account').then(component => {
++      const LoadedAccountComponent = component.default;
++
++      setAccountComponent(<LoadedAccountComponent/>);
++    });
++  }, [])
+
+   return (
+     <ThemeProvider theme={theme}>
+         <GlobalStyles />
+         <Switch>
+           <Route exact path="/" component={Dashboard}/>
+-          <Route exact path="/app/account" component={Account}/>
++          <Route exact path="/app/account" component={() => AccountComponent}/>
+           <Route exact path="/app/dashboard" component={Dashboard}/>
+           <Route exact path="/app/products" component={ProductList}/>
+           <Route exact path="/app/settings" component={Settings}/>
+
+```
+
+First, we initialize the state where we can store the loaded component. We initialize it to `null` because we don't want to render anything until it's done loading. If you have a loading screen, you can initialize it to your loading screen component.
+
+ Then, in a `useEffect` call, we wait for the component to load and update the state so we can render the actual component instead of `null`.
+
+Using this approach is tedious and still doesn't completely fit our use-case. It still starts to download the split component as soon as the page loads. We wanted to load the code on-demand. Of course, you build on top of this to fix that, or you could use `React.lazy` and `Suspense`.
+
+lazy + Suspense are a really good combo, lazy takes care of rendering your component as soon as it has been downloaded while suspense takes care of rendering a loading screen while your component is being loaded. If we use lazy + suspense, it looks like this:
+
+```diff
+-import React from "react";
++import React, {lazy, Suspense} from "react";
+ import 'react-perfect-scrollbar/dist/css/styles.css';
+ import { Route } from 'react-router-dom';
+ import { ThemeProvider } from '@material-ui/core';
+ import './mixins/chartjs';
+ import theme from './theme';
+ import DashboardLayout from './components/DashboardLayout';
+-import Account from './pages/Account';
+ import Dashboard from './pages/Dashboard';
+ import ProductList from './pages/ProductList';
+ import Settings from './pages/Settings';
+ import { Switch } from 'react-router';
+
++const Account = lazy(() => import('./pages/Account'));
++
+ const App = () => {
+   return (
+     <ThemeProvider theme={theme}>
+       <DashboardLayout>
+         <GlobalStyles />
+-        <Switch>
+-          <Route exact path="/" component={Dashboard}/>
+-          <Route exact path="/app/account" component={Account}/>
+-          <Route exact path="/app/dashboard" component={Dashboard}/>
+-          <Route exact path="/app/products" component={ProductList}/>
+-          <Route exact path="/app/settings" component={Settings}/>
+-        </Switch>
++        <Suspense fallback={null}>
++          <Switch>
++            <Route exact path="/" component={Dashboard}/>
++            <Route exact path="/app/account" component={Account}/>
++            <Route exact path="/app/dashboard" component={Dashboard}/>
++            <Route exact path="/app/products" component={ProductList}/>
++            <Route exact path="/app/settings" component={Settings}/>
++          </Switch>
++        </Suspense>
+       </DashboardLayout>
+     </ThemeProvider>
+   );
+
+```
+
+*I've set `fallback` to `null` because I don't have a loading screen.*
+
+This is a lot less manual work and it actually only loads the code when we need it. Win-win! Here's a CodeSandbox  where I've converted all pages to use lazy:
+
+<CodeSandbox
+  title="Components are lazy-loaded per route"
+  url="https://codesandbox.io/embed/bold-lewin-vxljt"
+/>
