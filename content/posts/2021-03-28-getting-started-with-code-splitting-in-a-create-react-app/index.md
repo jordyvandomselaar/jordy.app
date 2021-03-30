@@ -184,7 +184,7 @@ React.lazy + Suspense are a really good combo, lazy takes care of rendering your
 
 *I've set `fallback` to `null` because I don't have a loading screen.*
 
-This is a lot less manual work and it actually only loads the code when we need it. Win-win! Here's a CodeSandbox  where I've converted all pages to use React.lazy:
+This is a lot less manual work and it actually only loads the code when we need it. Win-win! Here's a CodeSandbox where I've converted all pages to use React.lazy:
 
 <CodeSandbox
   title="Components are lazy-loaded per route"
@@ -193,7 +193,7 @@ This is a lot less manual work and it actually only loads the code when we need 
 
 As you can see in this video:
 
-![Video where I show additional chunks being downloaded when I change page and that they're not reloading when opening a page for the second time](images/desktop-2021.03.30-22.31.36.02_converted.mp4)
+<video controls src="images/desktop-2021.03.30-22.31.36.02_converted.mp4" />
 
 Additional chunks are being downloaded on-demand. When I open a page that has already been loaded, it re-uses the chunk it has already downloaded.
 
