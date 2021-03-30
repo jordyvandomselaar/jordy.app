@@ -192,3 +192,7 @@ This is a lot less manual work and it actually only loads the code when we need 
   title="Components are lazy-loaded per route"
   url="https://codesandbox.io/embed/bold-lewin-vxljt"
 />
+
+As you can see in this video:
+
+![](images/virtualdesktop.android-20210326-001316.jpg)
