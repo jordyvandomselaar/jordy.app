@@ -129,7 +129,6 @@ There are a few ways we can solve this. One way is to not render anything, wait 
            <Route exact path="/app/dashboard" component={Dashboard}/>
            <Route exact path="/app/products" component={ProductList}/>
            <Route exact path="/app/settings" component={Settings}/>
-
 ```
 
 First, we initialize the state where we can store the loaded component. We initialize it to `null` because we don't want to render anything until it's done loading. If you have a loading screen, you can initialize it to your loading screen component.
@@ -138,7 +137,7 @@ First, we initialize the state where we can store the loaded component. We initi
 
 Using this approach is tedious and still doesn't completely fit our use-case. It still starts to download the split component as soon as the page loads. We wanted to load the code on-demand. Of course, you build on top of this to fix that, or you could use `React.lazy` and `Suspense`.
 
-lazy + Suspense are a really good combo, lazy takes care of rendering your component as soon as it has been downloaded while suspense takes care of rendering a loading screen while your component is being loaded. If we use lazy + suspense, it looks like this:
+React.lazy + Suspense are a really good combo, lazy takes care of rendering your component as soon as it has been downloaded while suspense takes care of rendering a loading screen while your component is being loaded. If we use React.lazy + suspense, it looks like this:
 
 ```diff
 -import React from "react";
@@ -181,12 +180,11 @@ lazy + Suspense are a really good combo, lazy takes care of rendering your compo
        </DashboardLayout>
      </ThemeProvider>
    );
-
 ```
 
 *I've set `fallback` to `null` because I don't have a loading screen.*
 
-This is a lot less manual work and it actually only loads the code when we need it. Win-win! Here's a CodeSandbox  where I've converted all pages to use lazy:
+This is a lot less manual work and it actually only loads the code when we need it. Win-win! Here's a CodeSandbox  where I've converted all pages to use React.lazy:
 
 <CodeSandbox
   title="Components are lazy-loaded per route"
@@ -195,4 +193,8 @@ This is a lot less manual work and it actually only loads the code when we need 
 
 As you can see in this video:
 
-![](images/virtualdesktop.android-20210326-001316.jpg)
+![Video where I show additional chunks being downloaded when I change page and that they're not reloading when opening a page for the second time](images/desktop-2021.03.30-22.31.36.02_converted.mp4)
+
+Additional chunks are being downloaded on-demand. When I open a page that has already been loaded, it re-uses the chunk it has already downloaded.
+
+Thanks for checking out my blog!
