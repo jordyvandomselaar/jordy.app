@@ -2,8 +2,8 @@
 title: Let's Add Google Auth To Our React Native App With AWS Amplify!
 author: Jordy van Domselaar
 date: 2020-03-02
+excerpt: ""
 hero: ./images/hero.jpeg
-excerpt: With the growing community interest in Gatsby, we hope to create more resources that make it easier for anyone to grasp the power of this incredible tool.
 ---
 
 import Tip from "../../../src/components/Tip"
@@ -11,10 +11,6 @@ import Tip from "../../../src/components/Tip"
 In this post, we'll create a React Native project, using [AWS Amplify](https://aws.amazon.com/amplify/) to allow our users to log in with their Google accounts.
 
 Amplify helps you add things like authentication, APIs, databases, hosting, and much more to your project by doing the heavy lifting for you.
-
-## Table of Contents
-
-## Intro
 
 This tutorial will explain how to use Amplify's Auth module with a Typescript React Native app. It'll cover both React Native CLI and Expo. If you're not familiar with TypeScript yet, you can read this post: <Link href="/from-zero-to-hero-with-react-and-type-script-lets-build-another-to-do-app"><Text as="a" href="From zero to hero with React and TypeScript: Let's build another to-do app!">From zero to hero with React and TypeScript: Let's build another to-do app!</Text></Link>
 
