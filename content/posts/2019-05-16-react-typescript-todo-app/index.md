@@ -2,14 +2,16 @@
 title: "From zero to hero with React and TypeScript: Let's build another to-do app!"
 author: Jordy van Domselaar
 date: 2019-05-16
+excerpt: Learn everything you need to know to get started with React and
+  Typescript. You don't need to have any prior TypeScript knowledge for this
+  one!
 hero: ./images/hero.png
-excerpt: Learn everything you need to know to get started with React and Typescript. You don't need to have any prior TypeScript knowledge for this one!
 ---
 
 
 import CodeSandbox from "../../../src/components/CodeSandbox";
 
-## Table of Contents
+<!-- Since I'm not using FC, add a section about typing the children prop. -->
 
 ## Intro
 
